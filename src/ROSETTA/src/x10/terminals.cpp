@@ -3,7 +3,7 @@
         NEW_TERMINAL_MACRO (AsyncStmt,  "AsyncStmt",  "ASYNC_STMT" );
         NEW_TERMINAL_MACRO (FinishStmt, "FinishStmt", "FINISH_STMT" );
         NEW_TERMINAL_MACRO (AtStmt,     "AtStmt",     "AT_STMT" );
-#if 0
+#if 1
         NEW_TERMINAL_MACRO (ClassPropertyList,     "ClassPropertyList",     "CLASS_PROPERTY_LIST" );
 #endif
         NEW_TERMINAL_MACRO (AtomicStmt, "AtomicStmt", "ATOMIC_STMT" );
@@ -70,7 +70,7 @@
         AtStmt.setDataPrototype                 ( "SgStatement*", "body", "= NULL",
                                                   CONSTRUCTOR_PARAMETER, BUILD_ACCESS_FUNCTIONS, DEF_TRAVERSAL, NO_DELETE);
 
-#if 0
+#if 1
         ClassPropertyList.setFunctionPrototype  ( "HEADER_CLASS_PROPERTY_LIST", "../Grammar/Statement.code" );
         ClassPropertyList.setFunctionSource     ( "SOURCE_CLASS_PROPERTY_LIST", "../Grammar/Statement.code" );
         ClassPropertyList.editSubstitute        ( "HEADER_LIST_DECLARATIONS", "HEADER_LIST_DECLARATIONS", "../Grammar/Statement.code" );

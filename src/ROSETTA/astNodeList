@@ -814,7 +814,7 @@ SgAsyncStmt
 SgFinishStmt
 SgAtStmt
 SgAtomicStmt
-//SgClassPropertyList
+SgClassPropertyList
 SgWhenStmt
 SgAtExp
 SgFinishExp
