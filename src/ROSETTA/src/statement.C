@@ -503,7 +503,7 @@ Grammar::setUpStatements ()
           FunctionDeclaration                  /* | ModuleStatement */        | ContainsStatement        |
           C_PreprocessorDirectiveStatement        | OmpThreadprivateStatement | FortranIncludeLine       | 
           JavaImportStatement                     | JavaPackageStatement      | StmtDeclarationStatement |
-          StaticAssertionDeclaration              | MicrosoftAttributeDeclaration /*| ClassPropertyList |*/, 
+          StaticAssertionDeclaration              | MicrosoftAttributeDeclaration | ClassPropertyList, 
           "DeclarationStatement", "DECL_STMT", false);
 
 

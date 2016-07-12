@@ -1555,6 +1555,31 @@ HEADER_LIST_DECLARATIONS
 
 HEADER_FUNCTION_DECLARATION_STATEMENT_END
 
+HEADER_CLASS_PROPERTY_LIST_START
+    virtual SgName get_mangled_name(void) const;
+
+//#ifndef ROSE_USE_INTERNAL_FRONTEND_DEVELOPMENT
+#if 0
+    virtual unsigned int cfgIndexForEnd() const;
+    virtual std::vector<VirtualCFG::CFGEdge> cfgOutEdges(unsigned int index);
+    virtual std::vector<VirtualCFG::CFGEdge> cfgInEdges(unsigned int index);
+#endif
+
+#if 0
+#if ALT_FIXUP_COPY
+    virtual void fixupCopy_scopes     (SgNode* copy, SgCopyHelp & help) const;
+    virtual void fixupCopy_symbols    (SgNode* copy, SgCopyHelp & help) const;
+    virtual void fixupCopy_references (SgNode* copy, SgCopyHelp & help) const;
+#else
+    virtual void fixupCopy(SgNode* copy, SgCopyHelp & help) const;
+#endif
+#endif
+
+    virtual void append_arg( SgInitializedName* what);
+    virtual void prepend_arg( SgInitializedName* what);
+HEADER_CLASS_PROPERTY_LIST_END
+
+
 HEADER_FUNCTION_PARAMETER_LIST_START
 HEADER_LIST_DECLARATIONS
 
@@ -11448,6 +11473,63 @@ SgFunctionDeclaration::set_global_qualification_required_for_return_type(bool gl
 
 
 SOURCE_FUNCTION_DECLARATION_STATEMENT_END
+
+SOURCE_CLASS_PROPERTY_LIST_START
+void
+SgClassPropertyList::post_construction_initialization()
+   {
+     if (get_file_info() != NULL)
+        {
+          Sg_File_Info* endingPosition = new Sg_File_Info(*(get_file_info()));
+          ROSE_ASSERT (endingPosition != NULL);
+
+       // DQ (12/18/2006): Fixup parents of Sg_File_Info objects.
+          endingPosition->set_parent(this);
+
+          set_endOfConstruct(endingPosition);
+        }
+   }
+
+void
+SgClassPropertyList::append_arg( SgInitializedName* what)
+   {
+     get_args().push_back(what);
+     what->set_parent(this);
+   }
+
+void
+SgClassPropertyList::prepend_arg( SgInitializedName* what)
+   {
+     get_args().insert(get_args().begin(), what);
+     what->set_parent(this);
+   }
+
+SgName
+SgClassPropertyList::get_mangled_name(void) const
+   {
+     std::string mangledNameString = SageInterface::getMangledNameFromCache(const_cast<SgClassPropertyList*>(this));
+     if (mangledNameString.empty() == false)
+        {
+          return mangledNameString;
+        }
+       else
+        {
+          SgName variableNames = "_args_";
+          SgInitializedNamePtrList::const_iterator p = get_args().begin();
+          while ( p != get_args().end() )
+             {
+               variableNames += SgName("_variable_type_") + (*p)->get_type()->get_mangled() + SgName("_variable_name_") + (*p)->get_mangled_name();
+               p++;
+             }
+
+          SgName mangledName = get_scope()->get_mangled_name() + SgName("_class_property_list_") + variableNames;
+          mangledName = SageInterface::addMangledNameToCache(const_cast<SgClassPropertyList*>(this),mangledName);
+          return mangledName;
+        }
+   }
+
+SOURCE_CLASS_PROPERTY_LIST_END
+
 
 
 SOURCE_FUNCTION_PARAMETER_LIST_START
